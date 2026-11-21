@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AntreKu — Ambil Nomor Antrean & Booking Real-Time</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/customer.css" />
+</head>
+<body>
+  <div class="customer-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-group">
+          <div class="brand-mark" id="brand-mark">A</div>
+          <div class="brand-text">
+            <p class="brand-title" id="topbar-business-name">AntreKu</p>
+            <p class="brand-sub" id="topbar-business-tagline">Sistem Antrean Digital Real-Time</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <span class="live-pill" id="live-status" title="Status koneksi real-time">
+            <span class="live-dot"></span>
+            <span id="live-status-text">Menghubungkan...</span>
+          </span>
+          <a href="/display" target="_blank" class="nav-link-pill" title="Buka Layar Monitor TV">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>Layar TV</span>
+          </a>
+          <a href="/admin" class="nav-link-pill" title="Buka Dasbor Admin">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Admin</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="customer-main">
+      <!-- Left / Primary Column: Hero + Tabs + Booking Form OR Digital Ticket -->
+      <div>
+        <section class="hero-banner" id="hero-banner">
+          <div class="hero-top">
+            <span class="status-chip">
+              <span class="status-chip-dot" id="queue-status-dot"></span>
+              <span id="queue-status-label">Memuat status...</span>
+            </span>
+            <span class="hero-hours" id="business-hours">08:00 - 21:00 WIB</span>
+          </div>
+          <h1 id="hero-business-name">AntreKu Digital Queue</h1>
+          <p id="hero-tagline">Ambil nomor antrean langsung dari ponsel dan pantau giliran Anda secara real-time.</p>
+          <div class="hero-meta-row">
+            <span class="hero-meta-item" id="hero-address">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Memuat lokasi...</span>
+            </span>
+            <span class="hero-meta-item" id="hero-waiting-summary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>0 orang menunggu</span>
+            </span>
+          </div>
+        </section>
+
+        <nav class="mode-tabs" role="tablist">
+          <button type="button" class="mode-tab active" id="tab-book" data-view="book" role="tab">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+            Ambil Antrean
+          </button>
+          <button type="button" class="mode-tab" id="tab-ticket" data-view="ticket" role="tab">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>
+            Tiket Saya
+            <span class="tab-count" id="my-tickets-count">0</span>
+          </button>
+        </nav>
+
+        <!-- View 1: Take Queue / Booking Form -->
+        <section class="section-card" id="view-book">
+          <h2 class="section-heading">Pilih Layanan</h2>
+          <p class="section-desc">Pilih layanan yang dibutuhkan untuk melihat estimasi waktu tunggu saat ini.</p>
+
+          <div class="service-list" id="service-list">
+            <div class="empty-state"><p>Memuat daftar layanan...</p></div>
+          </div>
+
+          <form id="booking-form" class="form-grid" novalidate>
+            <div>
+              <label style="display:block;font-size:13px;font-weight:700;margin-bottom:8px;">Jenis Kunjungan</label>
+              <div class="booking-type-toggle" id="booking-type-toggle">
+                <button type="button" class="type-pill active" data-type="walkin">
+                  <strong>Antre Sekarang (Langsung)</strong>
+                  <span>Langsung masuk antrean aktif hari ini</span>
+                </button>
+                <button type="button" class="type-pill" data-type="scheduled" id="btn-type-scheduled">
+                  <strong>Booking Jadwal Jam</strong>
+                  <span>Pilih slot waktu & check-in saat tiba</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="field" id="slot-picker-wrap" style="display:none;">
+              <label>Pilih Slot Waktu Booking</label>
+              <div class="slots-grid" id="slots-grid"></div>
+            </div>
+
+            <div class="field">
+              <label for="input-name">Nama Lengkap <span style="color:var(--danger);">*</span></label>
+              <input class="input" id="input-name" name="customerName" type="text" placeholder="Contoh: Budi Santoso" required maxlength="60" autocomplete="name" />
+            </div>
+
+            <div class="field">
+              <label for="input-phone">Nomor WhatsApp / HP <span class="hint">(opsional, untuk konfirmasi petugas)</span></label>
+              <input class="input" id="input-phone" name="phone" type="tel" placeholder="Contoh: 081234567890" maxlength="24" autocomplete="tel" />
+            </div>
+
+            <div class="field">
+              <label for="input-notes">Catatan Singkat <span class="hint">(opsional)</span></label>
+              <input class="input" id="input-notes" name="notes" type="text" placeholder="Misal: Keluhan singkat / model rambut / tipe perangkat" maxlength="160" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="btn-submit-ticket">
+              Ambil Nomor Antrean Sekarang
+            </button>
+          </form>
+        </section>
+
+        <!-- View 2: Live Digital Ticket Tracker -->
+        <section id="view-ticket" style="display:none; margin-top:14px;">
+          <div id="ticket-switcher" class="ticket-switcher"></div>
+          <div id="ticket-container"></div>
+        </section>
+      </div>
+
+      <!-- Right Column: Live Waiting Room Status -->
+      <aside class="live-board-card">
+        <div class="board-header">
+          <h2>Sedang Dilayani Sekarang</h2>
+          <span class="badge badge-serving" id="open-counters-badge">0 Aktif</span>
+        </div>
+
+        <div class="now-serving-list" id="now-serving-list">
+          <div class="empty-state"><p>Memuat status loket...</p></div>
+        </div>
+
+        <div class="mini-queue-strip">
+          <h3>
+            <span>Antrean Menunggu Berikutnya</span>
+            <span id="waiting-strip-count" class="tabular">0</span>
+          </h3>
+          <div class="queue-pills" id="waiting-pills"></div>
+        </div>
+
+        <div class="summary-stats-mini">
+          <div class="stat-mini">
+            <strong class="tabular" id="stat-waiting">0</strong>
+            <span>Menunggu</span>
+          </div>
+          <div class="stat-mini">
+            <strong class="tabular" id="stat-completed">0</strong>
+            <span>Selesai</span>
+          </div>
+          <div class="stat-mini">
+            <strong class="tabular" id="stat-avg-wait">~0m</strong>
+            <span>Rata-rata</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script type="module" src="/js/customer.js"></script>
+</body>
+</html>

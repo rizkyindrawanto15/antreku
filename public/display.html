@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Layar Monitor Antrean — AntreKu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/display.css" />
+</head>
+<body class="display-body">
+  <div class="display-shell">
+    <header class="display-header">
+      <div class="display-brand">
+        <div class="display-logo" id="tv-logo">A</div>
+        <div>
+          <h1 id="tv-business-name">AntreKu Display</h1>
+          <p id="tv-tagline">Sistem Antrean Digital Real-Time</p>
+        </div>
+      </div>
+
+      <div class="display-header-right">
+        <button type="button" class="audio-toggle-btn needs-unlock" id="btn-audio-toggle">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          <span id="audio-toggle-label">Aktifkan Suara Panggilan</span>
+        </button>
+
+        <span class="live-pill display-live-pill" id="tv-live-pill">
+          <span class="live-dot"></span>
+          <span id="tv-live-text">Menghubungkan...</span>
+        </span>
+
+        <div class="display-clock">
+          <div class="clock-time tabular" id="tv-clock-time">00:00:00</div>
+          <div class="clock-date" id="tv-clock-date">Memuat tanggal...</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="display-grid">
+      <!-- Left: Hero Spotlight for Currently Called Ticket -->
+      <section class="spotlight-card" id="spotlight-card">
+        <div class="spotlight-label-row">
+          <span class="spotlight-pill">
+            <span class="live-dot" style="background:#FBBF24;"></span>
+            Sedang Dipanggil
+          </span>
+          <span class="spotlight-call-count" id="spotlight-call-meta"></span>
+        </div>
+
+        <div class="spotlight-center">
+          <div class="spotlight-number tabular" id="spotlight-number">—</div>
+          <div class="spotlight-customer" id="spotlight-customer">Menunggu panggilan berikutnya...</div>
+        </div>
+
+        <div class="spotlight-destination" id="spotlight-destination">
+          <div class="dest-left">
+            <small>Silakan Menuju</small>
+            <strong id="spotlight-counter">Ruang Tunggu</strong>
+          </div>
+          <div class="dest-right">
+            <div id="spotlight-service">Antrean siap dipanggil</div>
+            <div id="spotlight-staff" style="font-size:13px;opacity:0.85;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Active Counters + Up Next + QR Scan -->
+      <div class="display-side">
+        <section class="glass-panel">
+          <h2>
+            <span id="tv-counters-heading">Loket Aktif</span>
+            <span id="tv-counters-count" class="tabular" style="color:#E2E8F0;">0</span>
+          </h2>
+          <div class="tv-counters-list" id="tv-counters-list"></div>
+        </section>
+
+        <section class="glass-panel">
+          <h2>
+            <span>Antrean Berikutnya</span>
+            <span id="tv-waiting-count" class="tabular" style="color:#E2E8F0;">0 menunggu</span>
+          </h2>
+          <div class="up-next-grid" id="tv-up-next"></div>
+        </section>
+
+        <section class="tv-qr-panel">
+          <div class="tv-qr-frame" id="tv-qr-frame"></div>
+          <div class="tv-qr-copy">
+            <h3>Ambil Antrean dari HP Anda</h3>
+            <p>Scan QR Code ini untuk mengambil nomor antrean & memantau sisa giliran secara langsung.</p>
+            <span class="tv-qr-url" id="tv-qr-url">http://localhost:3100</span>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script type="module" src="/js/display.js"></script>
+</body>
+</html>

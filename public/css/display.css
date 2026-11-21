@@ -1,0 +1,400 @@
+/* Waiting Room TV Display — High-Contrast Real-Time Queue Board */
+body.display-body {
+  background: #070C18;
+  color: #F8FAFC;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 18% 20%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 48%),
+    radial-gradient(circle at 86% 85%, rgba(56, 189, 248, 0.14), transparent 44%);
+}
+
+.display-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 26px 24px;
+  gap: 20px;
+  max-width: 1640px;
+  margin: 0 auto;
+}
+
+.display-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 22px;
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+}
+
+.display-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.display-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--accent);
+  color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.display-brand h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.display-brand p {
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  color: #94A3B8;
+}
+
+.display-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.audio-toggle-btn {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  padding: 9px 15px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.audio-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.audio-toggle-btn.active {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.5);
+  color: #6EE7B7;
+}
+
+.audio-toggle-btn.needs-unlock {
+  background: #F59E0B;
+  border-color: #FBBF24;
+  color: #0F172A;
+  animation: softGlow 1.8s infinite;
+}
+
+@keyframes softGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5); }
+  50% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+}
+
+.display-clock {
+  text-align: right;
+}
+
+.clock-time {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.05;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+}
+
+.clock-date {
+  font-size: 12.5px;
+  color: #94A3B8;
+  margin-top: 2px;
+}
+
+/* Main Board Grid */
+.display-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.85fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+@media (max-width: 1020px) {
+  .display-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Hero Spotlight Panel */
+.spotlight-card {
+  background: linear-gradient(160deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.72));
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 28px;
+  padding: 32px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  min-height: 460px;
+}
+
+.spotlight-card.flash-call {
+  border-color: #FBBF24;
+  animation: callSpotlightFlash 1.2s ease-out 3;
+}
+
+@keyframes callSpotlightFlash {
+  0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7), inset 0 0 80px rgba(251, 191, 36, 0.24); }
+  100% { box-shadow: 0 0 0 28px rgba(251, 191, 36, 0), inset 0 0 0 rgba(251, 191, 36, 0); }
+}
+
+.spotlight-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.spotlight-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--accent) 26%, rgba(255, 255, 255, 0.06));
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.spotlight-call-count {
+  font-size: 13px;
+  color: #FCD34D;
+  font-weight: 700;
+}
+
+.spotlight-center {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.spotlight-number {
+  font-size: clamp(82px, 12vw, 152px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #FFFFFF;
+  text-shadow: 0 12px 36px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.spotlight-customer {
+  font-size: clamp(20px, 2.5vw, 30px);
+  font-weight: 700;
+  color: #CBD5E1;
+  margin-top: 12px;
+}
+
+.spotlight-destination {
+  margin-top: 22px;
+  padding: 18px 24px;
+  border-radius: 20px;
+  background: var(--accent);
+  color: #FFFFFF;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--accent) 36%, transparent);
+}
+
+.dest-left small {
+  display: block;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.88;
+  font-weight: 700;
+}
+
+.dest-left strong {
+  display: block;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.dest-right {
+  text-align: right;
+  font-size: 15px;
+  font-weight: 600;
+  opacity: 0.94;
+}
+
+/* Right Stack: Active Counters + Up Next + QR */
+.display-side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 22px;
+  padding: 20px 22px;
+}
+
+.glass-panel h2 {
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #94A3B8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tv-counters-list {
+  display: grid;
+  gap: 11px;
+}
+
+.tv-counter-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(30, 41, 59, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.tv-counter-card.active {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: color-mix(in srgb, var(--accent) 55%, rgba(148, 163, 184, 0.2));
+}
+
+.tv-counter-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.tv-counter-staff {
+  font-size: 13px;
+  color: #94A3B8;
+  margin-top: 2px;
+}
+
+.tv-counter-num {
+  font-size: 32px;
+  font-weight: 900;
+  color: #38BDF8;
+  line-height: 1;
+}
+
+.tv-counter-num.called {
+  color: #FBBF24;
+}
+
+.tv-counter-num.idle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.up-next-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.up-next-chip {
+  padding: 9px 15px;
+  border-radius: 12px;
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  font-size: 18px;
+  font-weight: 800;
+  color: #E2E8F0;
+}
+
+.up-next-chip span {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: #94A3B8;
+}
+
+/* Bottom QR Scan Callout */
+.tv-qr-panel {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.92));
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 22px;
+  padding: 16px 20px;
+}
+
+.tv-qr-frame {
+  background: #FFFFFF;
+  padding: 9px;
+  border-radius: 14px;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.tv-qr-copy h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.tv-qr-copy p {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #CBD5E1;
+}
+
+.tv-qr-url {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: #7DD3FC;
+  word-break: break-all;
+}
+
+.display-live-pill {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(148, 163, 184, 0.25);
+  color: #E2E8F0;
+}

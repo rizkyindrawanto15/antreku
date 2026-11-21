@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dasbor Admin — AntreKu Real-Time</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <!-- PIN Auth Gate -->
+  <section class="auth-screen" id="auth-screen">
+    <div class="auth-card">
+      <div class="auth-logo" id="auth-logo">A</div>
+      <h1>Dasbor Admin AntreKu</h1>
+      <p>Masukkan PIN Operator untuk mengelola antrean, memanggil nomor, dan mengatur layanan.</p>
+      <form id="auth-form" style="display:grid;gap:12px;">
+        <input class="input pin-input" id="auth-pin-input" type="password" inputmode="numeric" placeholder="••••" maxlength="12" autocomplete="off" required />
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="btn-auth-submit">Masuk ke Dasbor</button>
+        <button type="button" class="btn btn-soft btn-block" id="btn-auth-demo">Masuk Cepat Demo (PIN: 1234)</button>
+      </form>
+      <div class="auth-hint">
+        PIN standar: <strong>1234</strong> (dapat diubah di menu Pengaturan).
+        <div style="margin-top:8px;">
+          <a href="/" style="color:var(--accent-dark);font-weight:700;">← Kembali ke Halaman Pelanggan</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Admin Application -->
+  <div class="admin-shell hidden" id="admin-app">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo" id="sidebar-logo">A</div>
+        <div>
+          <h2 id="sidebar-business-name">AntreKu</h2>
+          <p id="sidebar-preset-label">Dasbor Operator</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <button type="button" class="nav-item active" data-section="desk">
+          <span class="nav-item-left">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Meja Panggilan
+          </span>
+          <span class="nav-badge tabular" id="nav-badge-waiting">0</span>
+        </button>
+
+        <button type="button" class="nav-item" data-section="bookings">
+          <span class="nav-item-left">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Booking Jadwal
+          </span>
+          <span class="nav-badge tabular" id="nav-badge-booked">0</span>
+        </button>
+
+        <button type="button" class="nav-item" data-section="manage">
+          <span class="nav-item-left">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+            Layanan & Loket
+          </span>
+        </button>
+
+        <button type="button" class="nav-item" data-section="settings">
+          <span class="nav-item-left">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Pengaturan & Preset
+          </span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="/" target="_blank" class="sidebar-ext-link">
+          <span>Portal Pelanggan (HP)</span>
+          <span>↗</span>
+        </a>
+        <a href="/display" target="_blank" class="sidebar-ext-link">
+          <span>Layar TV Ruang Tunggu</span>
+          <span>↗</span>
+        </a>
+        <button type="button" class="btn btn-ghost btn-sm" id="btn-logout" style="color:#94A3B8;justify-content:flex-start;">
+          Kunci / Keluar Admin
+        </button>
+      </div>
+    </aside>
+
+    <div class="admin-main">
+      <header class="admin-header">
+        <div class="admin-header-title">
+          <h1 id="section-title">Meja Panggilan Antrean</h1>
+          <p id="section-subtitle">Kelola panggilan antrean secara langsung ke ponsel pelanggan dan layar TV.</p>
+        </div>
+
+        <div class="admin-header-actions">
+          <span class="live-pill" id="admin-live-pill">
+            <span class="live-dot"></span>
+            <span id="admin-live-text">Menghubungkan...</span>
+          </span>
+
+          <select id="header-queue-status" class="queue-status-select" aria-label="Status penerimaan antrean">
+            <option value="open">Status: Dibuka</option>
+            <option value="paused">Status: Dijeda</option>
+            <option value="closed">Status: Ditutup</option>
+          </select>
+
+          <button type="button" class="btn btn-primary btn-sm" id="btn-open-manual-modal">
+            + Antrean Walk-In
+          </button>
+        </div>
+      </header>
+
+      <main class="admin-body">
+        <!-- Section 1: Call Station & Live Queue -->
+        <section id="section-desk">
+          <div class="kpi-grid" id="kpi-grid"></div>
+
+          <div class="desk-grid">
+            <!-- Left: Active Counter Call Station -->
+            <div class="call-station-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;">
+                <h2 style="margin:0;font-size:16px;font-weight:800;" id="counter-selector-heading">Pilih Loket Aktif</h2>
+                <button type="button" class="btn btn-ghost btn-sm" id="btn-toggle-counter-status">Ubah Status Loket</button>
+              </div>
+
+              <div class="counter-tabs" id="counter-tabs"></div>
+
+              <div class="active-ticket-stage" id="active-ticket-stage"></div>
+
+              <div id="call-controls-wrap"></div>
+
+              <div class="next-up-preview" id="next-up-preview"></div>
+            </div>
+
+            <!-- Right: Queue List -->
+            <div class="panel-card">
+              <div class="panel-toolbar">
+                <h2>Daftar Antrean Hari Ini</h2>
+                <div class="filter-pills" id="queue-filter-pills">
+                  <button type="button" class="filter-pill active" data-filter="waiting">Menunggu</button>
+                  <button type="button" class="filter-pill" data-filter="active">Dipanggil/Dilayani</button>
+                  <button type="button" class="filter-pill" data-filter="skipped">Dilewati</button>
+                  <button type="button" class="filter-pill" data-filter="done">Selesai/Batal</button>
+                  <button type="button" class="filter-pill" data-filter="all">Semua</button>
+                </div>
+              </div>
+
+              <div class="search-row">
+                <input class="input" id="queue-search-input" type="search" placeholder="Cari nomor (A-003), nama pelanggan, atau layanan..." />
+              </div>
+
+              <div class="queue-list" id="admin-queue-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Scheduled Bookings -->
+        <section id="section-bookings" class="hidden">
+          <div class="panel-card">
+            <div class="panel-toolbar">
+              <div>
+                <h2>Daftar Booking Jadwal</h2>
+                <p style="margin:3px 0 0;font-size:13px;color:var(--ink-muted);">Pelanggan yang memesan slot jam dapat melakukan check-in mandiri atau di-check-in oleh petugas saat tiba.</p>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-add-booking-modal">+ Tambah Booking</button>
+            </div>
+            <div class="queue-list" id="bookings-list"></div>
+          </div>
+        </section>
+
+        <!-- Section 3: Services & Counters Management -->
+        <section id="section-manage" class="hidden">
+          <div class="panel-card" style="margin-bottom:20px;">
+            <div class="panel-toolbar">
+              <div>
+                <h2>Daftar Layanan</h2>
+                <p style="margin:2px 0 0;font-size:13px;color:var(--ink-muted);">Atur kode huruf antrean, estimasi durasi, dan harga layanan.</p>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-add-service">+ Tambah Layanan</button>
+            </div>
+            <div class="manage-grid" id="services-manage-grid"></div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-toolbar">
+              <div>
+                <h2 id="manage-counters-title">Daftar Loket / Operator</h2>
+                <p style="margin:2px 0 0;font-size:13px;color:var(--ink-muted);">Tentukan petugas dan layanan yang ditangani pada tiap loket/kursi.</p>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-add-counter">+ Tambah Loket</button>
+            </div>
+            <div class="manage-grid" id="counters-manage-grid"></div>
+          </div>
+        </section>
+
+        <!-- Section 4: Settings & Business Presets -->
+        <section id="section-settings" class="hidden">
+          <div class="settings-grid">
+            <div class="panel-card">
+              <h2 style="margin:0 0 4px;font-size:16.5px;font-weight:800;">Ganti Preset Jenis Usaha (Instan)</h2>
+              <p style="margin:0;font-size:13px;color:var(--ink-muted);">Ubah seluruh layanan, loket, warna tema, dan data contoh secara otomatis dalam 1 klik.</p>
+              <div class="preset-grid" id="preset-grid"></div>
+
+              <hr style="border:none;border-top:1px solid var(--border);margin:18px 0;" />
+
+              <h2 style="margin:0 0 12px;font-size:16.5px;font-weight:800;">Profil Bisnis & Pengaturan Antrean</h2>
+              <form id="settings-form" style="display:grid;gap:12px;">
+                <div class="field">
+                  <label for="set-business-name">Nama Usaha / Klinik / Barbershop</label>
+                  <input class="input" id="set-business-name" required />
+                </div>
+                <div class="field">
+                  <label for="set-tagline">Tagline / Deskripsi Singkat</label>
+                  <input class="input" id="set-tagline" />
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                  <div class="field">
+                    <label for="set-address">Alamat</label>
+                    <input class="input" id="set-address" />
+                  </div>
+                  <div class="field">
+                    <label for="set-hours">Jam Operasional</label>
+                    <input class="input" id="set-hours" />
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                  <div class="field">
+                    <label for="set-accent">Warna Tema Utama</label>
+                    <input class="input" id="set-accent" type="color" style="height:44px;padding:4px;" />
+                  </div>
+                  <div class="field">
+                    <label for="set-new-pin">Ubah PIN Admin <span class="hint">(kosongkan jika tetap)</span></label>
+                    <input class="input" id="set-new-pin" type="password" placeholder="Min. 4 karakter" minlength="4" maxlength="12" />
+                  </div>
+                </div>
+
+                <label style="display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;cursor:pointer;">
+                  <input type="checkbox" id="set-tts-enabled" />
+                  Aktifkan Pengumuman Suara Otomatis (TTS Bahasa Indonesia) di Layar TV
+                </label>
+
+                <label style="display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;cursor:pointer;">
+                  <input type="checkbox" id="set-show-name" />
+                  Tampilkan Nama Pelanggan (tersamar) di Layar TV
+                </label>
+
+                <label style="display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;cursor:pointer;">
+                  <input type="checkbox" id="set-allow-booking" />
+                  Izinkan Booking Jadwal Jam di Portal Pelanggan
+                </label>
+
+                <button type="submit" class="btn btn-primary" style="justify-self:start;">Simpan Pengaturan</button>
+              </form>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:18px;">
+              <div class="panel-card">
+                <h2 style="margin:0 0 6px;font-size:16px;font-weight:800;">QR Code & Akses Pelanggan</h2>
+                <p style="margin:0 0 14px;font-size:13px;color:var(--ink-muted);">Cetak atau tampilkan QR Code ini di meja resepsionis agar pelanggan dapat mengambil nomor dari ponsel mereka.</p>
+                <div class="qr-share-box">
+                  <div class="qr-frame" id="admin-qr-frame"></div>
+                  <div style="font-size:12.5px;color:var(--ink-secondary);word-break:break-all;" id="admin-qr-url"></div>
+                  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;">
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-copy-customer-url">Salin Link Pelanggan</button>
+                    <a href="/display" target="_blank" class="btn btn-soft btn-sm">Buka Layar TV</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <h2 style="margin:0 0 6px;font-size:16px;font-weight:800;">Reset Antrean Harian</h2>
+                <p style="margin:0 0 14px;font-size:13px;color:var(--ink-muted);">Mulai ulang nomor urut antrean dari 001 untuk hari operasional baru, atau muat ulang data simulasi demo.</p>
+                <div style="display:grid;gap:9px;">
+                  <button type="button" class="btn btn-danger btn-block" id="btn-reset-empty">Kosongkan Antrean & Reset Nomor ke 001</button>
+                  <button type="button" class="btn btn-secondary btn-block" id="btn-reset-demo">Muat Ulang Data Simulasi Demo</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Reusable Dynamic Modal -->
+  <div class="modal-backdrop" id="modal-backdrop" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal</h3>
+        <button type="button" class="btn btn-ghost btn-sm" id="modal-close" aria-label="Tutup">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>
